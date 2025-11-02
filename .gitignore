@@ -2,3 +2,8 @@
 __pycache__/
 *.pyc
 /outputs/
+/torch_utils/
+/dnnlib/
+# 忽略 morphing 步骤的输出
+/outputs/morphing_frames/
+*.mp4
