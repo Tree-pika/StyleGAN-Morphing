@@ -36,7 +36,7 @@
 
 ![Slerp Morph to Mixed W](outputs/morphing_video_slerp.gif)
 
-PS：![mp4 to GIf online transformer](https://ezgif.com/video-to-gif)
+PS：[mp4 to GIf online transformer](https://ezgif.com/video-to-gif)
 ## 🗂️ 文件结构
 
 ```
