@@ -147,7 +147,7 @@ python morphing_layered_mix.py --a 100 --b 200 --start 4 --end 8
 # 2. 合成视频
 python create_video_layered_mix.py
 
-# 3. 结果: outputs/morphing_video_layered_mix.mp4
+# 3. 结果: outputs/morphing_layered_mix.mp4
 ```
 
 #### 用例 3: 创建并使用一个“混合W向量”
