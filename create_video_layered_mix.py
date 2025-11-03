@@ -1,19 +1,22 @@
 import cv2
 import os
-import re # 导入正则表达式库来帮助排序
+import re
 
 print(f"OpenCV 版本: {cv2.__version__}")
 
-# --- 配置 ---
-INPUT_DIR = 'outputs/morphing_style_mix_frames'  # 生成帧的文件夹
-OUTPUT_VIDEO_PATH = 'outputs/morphing_video_style_mix.mp4' # 最终视频的名字
-FPS = 30  # 保持和 morphing_style_mix.py 中的 FPS 一致
-# ------------
+
+# 为了简化，默认统一输入和输出路径，若想不覆盖，可以在二次运行前修改下面的参数
+INPUT_DIR = 'outputs/morphing_layered_mix_frames'
+OUTPUT_VIDEO_PATH = 'outputs/morphing_video_layered_mix.mp4'
+FPS = 30
 
 def get_frame_dimensions(frame_dir):
-    """读取第一张图片来获取视频的宽度和高度"""
-    # 找到第一张图片 (这里是frame_0000.png)
-    test_image_name = sorted([f for f in os.listdir(frame_dir) if f.endswith('.png')])[0]
+    try:
+        test_image_name = sorted([f for f in os.listdir(frame_dir) if f.endswith('.png')])[0]
+    except IndexError:
+        print(f"错误: 文件夹 '{frame_dir}' 为空或不包含 .png 文件。")
+        return None, None
+        
     test_image_path = os.path.join(frame_dir, test_image_name)
     
     img = cv2.imread(test_image_path)
@@ -26,39 +29,33 @@ def get_frame_dimensions(frame_dir):
     return (width, height)
 
 def natural_sort_key(s):
-    """
-    创建一个“自然排序”的键 (e.g. 'frame_10.png' 会排在 'frame_2.png' 之后)
-    """
     return [int(text) if text.isdigit() else text.lower() for text in re.split('([0-9]+)', s)]
 
-def create_video(frame_dir, video_path, fps):
-    """从帧文件夹创建视频"""
+
+def create_layered_mix_video(frame_dir, video_path, fps):
     
-    # 1. 获取视频尺寸
     frame_size = get_frame_dimensions(frame_dir)
     if frame_size[0] is None:
         return
 
-    # 2. 定义视频编码器 (H.264)
-    # 'mp4v' 对应 .mp4 文件
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    
-    # 3. 初始化 VideoWriter 对象
     out = cv2.VideoWriter(video_path, fourcc, fps, frame_size)
 
-    # 4. 获取所有帧并正确排序
     frames = [f for f in os.listdir(frame_dir) if f.endswith('.png')]
-    frames.sort(key=natural_sort_key) # 按 frame_0000, 0001, ... 排序
+    frames.sort(key=natural_sort_key)
     
+    if not frames:
+         print(f"错误: 在 '{frame_dir}' 中未找到任何 .png 帧。")
+         out.release()
+         return
+         
     print(f"正在从 {len(frames)} 帧图像创建视频...")
     
-    # 5. 循环读取每一帧并写入视频
     for frame_name in frames:
         frame_path = os.path.join(frame_dir, frame_name)
         img = cv2.imread(frame_path)
-        out.write(img) # 将帧写入
+        out.write(img)
         
-    # 6. 释放资源
     out.release()
     print(f"\n成功！ 视频已保存到: {video_path}")
 
@@ -66,6 +63,6 @@ def create_video(frame_dir, video_path, fps):
 if __name__ == "__main__":
     if not os.path.exists(INPUT_DIR):
         print(f"错误: 找不到输入文件夹 '{INPUT_DIR}'")
-        print("请先运行 morphing.py 来生成帧。")
+        print("请先运行 morphing_layered_mix.py 来生成帧。")
     else:
-        create_video(INPUT_DIR, OUTPUT_VIDEO_PATH, FPS)
+        create_layered_mix_video(INPUT_DIR, OUTPUT_VIDEO_PATH, FPS)

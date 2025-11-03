@@ -12,7 +12,7 @@ VIDEO_LERP_PATH = 'outputs/morphing_video.mp4'
 VIDEO_SLERP_PATH = 'outputs/morphing_video_slerp.mp4'
 # [输出]
 OUTPUT_VIDEO_PATH = 'outputs/comparison_Lerp_vs_Slerp.mp4'
-FPS = 30  # 和原视频的 保持FPS 一致
+FPS = 30  # 和原视频保持FPS 一致
 # ------------
 
 def create_comparison(video_path_a, video_path_b, output_path, fps):

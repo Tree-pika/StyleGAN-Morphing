@@ -3,7 +3,7 @@ import numpy as np
 import PIL.Image
 import pickle
 import time
-import os # 导入 os 库来处理文件路径
+import os # 处理文件路径
 
 def load_model(model_path):
     """加载 StyleGAN2-ADA 模型"""
@@ -15,7 +15,7 @@ def load_model(model_path):
     try:
         with open(model_path, 'rb') as f:
             network_dict = pickle.load(f)
-            G = network_dict['G_ema'] # G_ema 是效果最好的生成器
+            G = network_dict['G_ema'] # 生成器
             return G
     except Exception as e:
         print(f"加载模型失败: {e}")
