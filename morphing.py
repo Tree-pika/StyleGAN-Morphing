@@ -6,7 +6,6 @@ import time
 import os
 from tqdm import tqdm # 进度条库
 
-# --- 辅助函数 (来自 generate_face.py) ---
 
 def load_model(model_path):
     print(f"正在从 {model_path} 加载模型...")
@@ -57,7 +56,7 @@ if __name__ == "__main__":
     
     # --- 配置 ---
     MODEL_PATH = 'stylegan2-ffhq.pkl'
-    OUTPUT_DIR = 'outputs/morphing_frames' # 新的输出文件夹
+    OUTPUT_DIR = 'outputs/morphing_frames'
     
     SEED_A = 100          # 起始人脸 
     SEED_B = 200          # 目标人脸 
@@ -110,7 +109,7 @@ if __name__ == "__main__":
         # 8. 转换并保存
         img_pil = tensor_to_pil(img_tensor)
         
-        # 确保命名要规范：用0补齐 (e.g., frame_000.png, frame_001.png)
+        # 确保命名规范：用0补齐 (e.g., frame_000.png, frame_001.png)
         filename = f'frame_{i:04d}.png'
         img_pil.save(os.path.join(OUTPUT_DIR, filename))
 

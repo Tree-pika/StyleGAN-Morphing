@@ -5,9 +5,8 @@ import pickle
 import time
 import os
 from tqdm import tqdm
-import torch.nn.functional as F # 我们需要 F.normalize
+import torch.nn.functional as F # F.normalize
 
-# --- 辅助函数 (来自 generate_face.py) ---
 
 def load_model(model_path):
     print(f"正在从 {model_path} 加载模型...")
@@ -96,17 +95,14 @@ def slerp(v0, v1, t, Epsilon=1e-5):
 # --- 主程序 ---
 if __name__ == "__main__":
     
-    # --- 配置 (与 morphing.py 相同) ---
     MODEL_PATH = 'stylegan2-ffhq.pkl'
-    
-    # 将 Slerp 的结果保存到新文件夹
     OUTPUT_DIR = 'outputs/morphing_slerp_frames' 
     
     SEED_A = 100          # 起始人脸
     SEED_B = 200          # 目标人脸
     DURATION_SEC = 5      # 动画时长 (秒)
     FPS = 30              # 动画帧率 (fps)
-    TRUNCATION_PSI = 0.7 
+    TRUNCATION_PSI = 0.7
     # ------------
     
     os.makedirs(OUTPUT_DIR, exist_ok=True)

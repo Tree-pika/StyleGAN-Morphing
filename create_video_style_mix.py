@@ -5,9 +5,9 @@ import re # 导入正则表达式库来帮助排序
 print(f"OpenCV 版本: {cv2.__version__}")
 
 # --- 配置 ---
-INPUT_DIR = 'outputs/morphing_slerp_frames'  # 生成帧的文件夹
-OUTPUT_VIDEO_PATH = 'outputs/morphing_video_slerp.mp4' # 最终视频的名字
-FPS = 30  # 保持和 morphing_slerp.py 中的 FPS 一致
+INPUT_DIR = 'outputs/morphing_style_mix_frames'  # 生成帧的文件夹
+OUTPUT_VIDEO_PATH = 'outputs/morphing_video_style_mix.mp4' # 最终视频的名字
+FPS = 30  # 保持和 morphing_style_mix.py 中的 FPS 一致
 # ------------
 
 def get_frame_dimensions(frame_dir):
