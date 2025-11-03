@@ -87,7 +87,7 @@ if __name__ == "__main__":
     w_A = get_w_from_seed(G, device, SEED_A, TRUNCATION_PSI)
     w_B = get_w_from_seed(G, device, SEED_B, TRUNCATION_PSI)
     
-    # 5. [核心] 执行插值并生成每一帧
+    # 5. 执行插值并生成每一帧
     total_frames = DURATION_SEC * FPS
     print(f"即将开始生成 {total_frames} 帧动画 (时长 {DURATION_SEC}s @ {FPS}fps)...")
     
@@ -104,7 +104,7 @@ if __name__ == "__main__":
         w_interp = torch.lerp(w_A, w_B, t)
         
         # 7. 用 G.synthesis (合成网络) 从 w 生成图像
-        # 此时不需要 G.mapping 了，因为我们已经有了 w
+        # 此时不需要 G.mapping 了，因为已经有了 w
         img_tensor = G.synthesis(w_interp, noise_mode='const')
         
         # 8. 转换并保存
