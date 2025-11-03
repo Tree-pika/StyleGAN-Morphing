@@ -9,3 +9,5 @@ __pycache__/
 /outputs/morphing_slerp_frames/
 /outputs/morphing_layered_mix_frames/
 *.mp4
+
+**/*:Zone.Identifier

@@ -19,7 +19,6 @@ def load_model(model_path, device):
         return None
     try:
         with open(model_path, 'rb') as f:
-            # G_ema 是效果最好的生成器
             G = pickle.load(f)['G_ema'].to(device) 
             return G
     except Exception as e:
@@ -41,7 +40,7 @@ def get_w_from_seed(G, device, seed, truncation_psi):
     通过 G.mapping 从一个 seed 计算出 W 潜在向量
     (G 必须已经在 device 上)
     """
-    print(f"正在计算 Seed {seed} 的 W 向量...")
+    print(f"正在从 Seed {seed} (PSI={truncation_psi}) 计算 W 向量...")
     torch.manual_seed(seed)
     np.random.seed(seed)
     
@@ -57,7 +56,7 @@ def get_w_from_seed(G, device, seed, truncation_psi):
 
 def slerp(v0, v1, t, Epsilon=1e-5):
     """
-    手写实现球面线性插值 (Spherical Linear Interpolation)
+    手动实现球面线性插值 (Spherical Linear Interpolation)
     v0, v1: 起始和结束向量 (形状: [1, 18, 512])
     t: 插值系数 (float, 0.0 to 1.0)
     """
@@ -79,3 +78,24 @@ def slerp(v0, v1, t, Epsilon=1e-5):
     w_interp = torch.where(mask, v_lerp, v_slerp)
     
     return w_interp
+
+def load_w_from_source(G, device, w_source, truncation_psi):
+    """
+    智能加载W向量：
+    - 如果 w_source 是一个数字 (e.g., '100'), 就从seed生成.
+    - 如果 w_source 是一个.pt文件 (e.g., 'my_face.pt'), 就从文件加载.
+    """
+    if str(w_source).endswith('.pt'):
+        if not os.path.exists(w_source):
+            print(f"错误: 找不到W文件: {w_source}")
+            return None
+        print(f"正在从文件加载 W: {w_source}...")
+        w = torch.load(w_source).to(device)
+        return w
+    else:
+        try:
+            seed = int(w_source)
+            return get_w_from_seed(G, device, seed, truncation_psi)
+        except ValueError:
+            print(f"错误: 输入 '{w_source}' 不是一个有效的 seed (数字) 或 .pt 文件。")
+            return None

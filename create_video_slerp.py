@@ -66,6 +66,6 @@ def create_video(frame_dir, video_path, fps):
 if __name__ == "__main__":
     if not os.path.exists(INPUT_DIR):
         print(f"错误: 找不到输入文件夹 '{INPUT_DIR}'")
-        print("请先运行 morphing.py 来生成帧。")
+        print("请先运行 morphing_slerp.py 来生成帧。")
     else:
         create_video(INPUT_DIR, OUTPUT_VIDEO_PATH, FPS)
