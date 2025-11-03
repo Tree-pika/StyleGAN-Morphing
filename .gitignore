@@ -1,9 +1,11 @@
 *.pkl
 __pycache__/
 *.pyc
-/outputs/
+
 /torch_utils/
 /dnnlib/
-# 忽略 morphing 步骤的输出
+
 /outputs/morphing_frames/
+/outputs/morphing_slerp_frames/
+/outputs/morphing_layered_mix_frames/
 *.mp4
